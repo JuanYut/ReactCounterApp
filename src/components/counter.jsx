@@ -1,31 +1,16 @@
 import React, { Component } from 'react'
 
 class Counter extends Component {
-  state = {  
-    value: this.props.counter.value,
-    imageUrl: "https://picsum.photos/200",
-    tags: ['tag1', 'tag2', 'tag3']
-  }
-
-  handleIncrement = product => {
-    console.log(product)
-    this.setState({ value: this.state.value + 1 })
-  }
-
-  doHandleIncrement = () => {
-    this.handleIncrement({ id: 1})
-  }
-
   render() { 
     return (
       <div>
         { this.props.children }
-        <img className="m-2" src={ this.state.imageUrl } alt=""></img>
+        {/* <img className="m-2" src={ this.state.imageUrl } alt=""></img> */}
 
         <span className={ this.getBadgeClasses() }>{ this.formatCount() }</span>
 
         <button 
-          onClick={ () => this.doHandleIncrement() }
+          onClick={ () => this.props.onIncrement(this.props.counter) }
           className="btn btn-secondary btn-sm">
           Increment
         </button>
@@ -35,22 +20,18 @@ class Counter extends Component {
           className="btn btn-danger btn-sm m-2">
           Delete
         </button>
-
-        <ul>
-          { this.state.tags.map( tag => <li key={ tag }>{ tag }</li> ) }
-        </ul>
       </div>
     )
   }
 
   getBadgeClasses() {
     let classes = "badge m-2 badge-";
-    classes += (this.state.count === 0) ? "warning" : "primary";
+    classes += (this.props.counter.value === 0) ? "warning" : "primary";
     return classes;
   }
 
   formatCount() {
-    const { value } = this.state
+    const { value } = this.props.counter
     return  value === 0 ? "Zero" : value
   }
 
